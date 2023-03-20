@@ -1,0 +1,43 @@
+
+.addcontact{
+ /* color: blue; */
+  text-align: center;
+}
+.header-main{
+  /* background-color:orange; */
+  text-align: center;
+}
+
+.main{
+  /* background-color: greenyellow; */
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
+  row-gap: 10px;
+}
+.addcontact-main{
+  /* background-color: lightblue; */
+  align-items: center;
+}
+.contactlist-main{
+  /* background-color: red; */
+  /* color: aqua; */
+  align-items: center;
+  text-align: center;
+}
+.contactlist{
+  align-items: center;
+  text-align: center;
+  /* background-color: red; */
+  /* color: blue; */
+}
+.addcontact{
+  align-items: center;
+  text-align: center;
+}
+/* .outer-header{
+  background-color: red;
+}
+.cmh{
+  background-color: green;
+} */
