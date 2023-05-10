@@ -1,15 +1,45 @@
-import React from "react";
+import React, { useContext } from "react";
+import contactlistcontext from "../context/contactlistcontext";
+import   CustomDeleteIconChips  from '../mui-comp/delete.js'
+import DeleteIcon from '@mui/icons-material/Delete';
+import { useState } from "react";
+import './App.css'
+import { Grid } from "@mui/material";
+import addcontactcontext from "../context/addcontactcontext";
+const ContactCard=(props)=>{
+        // const contact=useContext(contactlistcontext)
+        const [isClicked, setIsClicked] = useState(false);
+         const del=useContext(addcontactcontext);
+         
+  const handleClick = (id) => {
+    // del.removecontacthandler(id)
+       
+  };
 
-const ContactCard=(item)=>{
-
-    
+  const iconColor = isClicked ? 'red' : 'black';
         return (
-            <div>
-            <div>{item.contact.id}</div>
-            <div>{item.contact.name}</div>
-            <div>{item.contact.email}</div>
-            </div>
+            // <div className="contact-package">
+            // {/* <div>{item.contact.id}</div> */}
+            // <div >
+            // <div>{props.contact.name}</div>
+            // <div>{props.contact.email}</div>
+            // </div>
+            // <div>
+            // <DeleteIcon onClick={handleClick} style={{ color: iconColor }} />
+            // </div>
+            // {/* <DeleteIcon /> */}
+            // </div>
+            <Grid>
+                <Grid item md={10}>
+                <div>{props.contact.name}</div>
+                <div>{props.contact.email}</div>  
+                </Grid>
+                <Grid item md={2}>
+               <DeleteIcon onClick={()=>handleClick(props.contact.id)} />
+                </Grid>
+            </Grid>
         )
 
 }
 export default ContactCard;
+
