@@ -5,7 +5,7 @@ const Header=()=>{
            return (
             <div className="outer-header">
                   
-                  <h2 className="cmh">Contact Manager header</h2>
+                  <h2 className="cmh">This is Contact Manager header</h2>
                   
             </div>
            )
