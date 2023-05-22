@@ -12,7 +12,7 @@ const ContactCard=(props)=>{
          const del=useContext(addcontactcontext);
          
   const handleClick = (id) => {
-    // del.removecontacthandler(id)
+     del.removecontacthandler(id)
        
   };
 

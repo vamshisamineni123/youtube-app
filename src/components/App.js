@@ -34,9 +34,7 @@ export default function App(){
   //        setcontacts({...contacts,d})
   // }
   const addcontacthandler = (data) => {
-    console.log("add", contacts);
     const r = { ...data, id: uuid() };
-    console.log('out');
     fetch('http://localhost:3007/contacts/', {
       method: 'POST',
       headers: {
@@ -46,7 +44,6 @@ export default function App(){
     })
     .then(response => response.json())
     .then(data => {
-      console.log('in', data);
       setcontacts(prevContacts => [...prevContacts, r]);
     })
     .catch(error => {
@@ -54,8 +51,8 @@ export default function App(){
     });
   }
   
-  const removecontacthandler=(id)=>{
-         const response= ('http://localhost:3007/contacts/${id}',{
+  const removecontacthandler=async(id)=>{
+         const response= await fetch(`http://localhost:3007/contacts/${id}`,{
           method: 'DELETE',
           headers: {
             'Content-Type': 'application/json'
@@ -75,9 +72,9 @@ export default function App(){
           throw new Error('Network response was not ok');
         }
         console.log(response)
-        const data =[response.json()];
-        console.log('inti ', data, typeof(data))
-        setcontacts(prevContacts => [...prevContacts, ...data]);
+        const data =await response.json();
+        // console.log('inti ', data, typeof(data))
+        setcontacts(prev=>[...prev,...data]);
       } catch (error) {
         console.error('Error fetching contacts:', error);
       }
