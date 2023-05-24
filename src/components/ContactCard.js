@@ -4,6 +4,7 @@ import   CustomDeleteIconChips  from '../mui-comp/delete.js'
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useState } from "react";
 import './App.css'
+import { Link } from "react-router-dom";
 import { Grid } from "@mui/material";
 import addcontactcontext from "../context/addcontactcontext";
 const ContactCard=(props)=>{
@@ -29,15 +30,25 @@ const ContactCard=(props)=>{
             // </div>
             // {/* <DeleteIcon /> */}
             // </div>
-            <Grid>
+                    
+              <Grid>
                 <Grid item md={10}>
+                <Link to={{
+              pathname: `/edit`,
+              state: { contac: props.contact }  // Pass the contact object as state
+            }}> 
                 <div>{props.contact.name}</div>
                 <div>{props.contact.email}</div>  
+                </Link>
                 </Grid>
+              
                 <Grid item md={2}>
                <DeleteIcon onClick={()=>handleClick(props.contact.id)} />
                 </Grid>
             </Grid>
+            
+           
+
         )
 
 }

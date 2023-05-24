@@ -16,6 +16,7 @@ import  r from '../api/contact'
 import { ControlPointSharp } from "@mui/icons-material";
 export default function App(){
   const [contacts,setcontacts]=useState([]);
+  const [data,setdata]=useState();
   // const addcontacthandler=(data)=>{
   //   console.log("add",contacts)
   //        const r={...data,id:uuid()}
@@ -35,7 +36,7 @@ export default function App(){
   // }
   const addcontacthandler = (data) => {
     const r = { ...data, id: uuid() };
-    fetch('http://localhost:3007/contacts/', {
+    fetch('http://localhost:3008/contacts/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -52,7 +53,7 @@ export default function App(){
   }
   
   const removecontacthandler=async(id)=>{
-         const response= await fetch(`http://localhost:3007/contacts/${id}`,{
+         const response= await fetch(`http://localhost:3008/contacts/${id}`,{
           method: 'DELETE',
           headers: {
             'Content-Type': 'application/json'
@@ -61,12 +62,39 @@ export default function App(){
          const filteredContacts = contacts.filter(contact => contact.id !== id);
        setcontacts(filteredContacts)
   }
+  // const updatecontacthandler=()=>{
+
+  // }
+  const updatecontacthandler = async (id, updatedData) => {
+    const updatedContact = { ...updatedData, id };
+    try {
+      const response = await fetch(`http://localhost:3008/contacts/${id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(updatedContact)
+      });
+  
+      if (response.ok) {
+        const updatedContactData = await response.json();
+        const updatedContacts = contacts.filter(contact =>contact.id!==id);
+        setcontacts([...contacts,updatedContacts]);
+      } else {
+        throw new Error('Failed to update contact.');
+      }
+    } catch (error) {
+      console.error('Error updating contact:', error);
+    }
+  }
+  
+  
   
   useEffect(() => {
     const fetchData =async() => {
       try {
        
-        const response = await fetch('http://localhost:3007/contacts');
+        const response = await fetch('http://localhost:3008/contacts');
         console.log(response)
         if (!response.ok) {
           throw new Error('Network response was not ok');
@@ -74,22 +102,21 @@ export default function App(){
         console.log(response)
         const data =await response.json();
         // console.log('inti ', data, typeof(data))
-        setcontacts(prev=>[...prev,...data]);
+        setcontacts(prev=>[...data]);
       } catch (error) {
         console.error('Error fetching contacts:', error);
       }
-     // console.log(contacts)
     };
 
      fetchData();
-    // console.log(contacts)
     
   }, []);
   return (
     <div className="main">
      
-      <addcontactcontext.Provider value={{addcontacthandler, removecontacthandler}} >
+      <addcontactcontext.Provider value={{addcontacthandler, removecontacthandler,updatecontacthandler}} >
         <contactlistcontext.Provider value={contacts}>
+    
      <Router>
           <Header />
           <Routes>
@@ -97,6 +124,7 @@ export default function App(){
             </Route>
             
             <Route  exact path='/' element={<ContactList/>}>
+            <Route  exact path='/edit:id' element={<EditContact cont={data}/>}>
             </Route>  
            </Routes>
       </Router>
