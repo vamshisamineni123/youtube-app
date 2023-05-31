@@ -34,7 +34,7 @@ const ContactCard=(props)=>{
               <Grid>
                 <Grid item md={10}>
                 <Link to={{
-              pathname: `/edit`,
+              pathname: '/edit',
               state: { contac: props.contact }  // Pass the contact object as state
             }}> 
                 <div>{props.contact.name}</div>
