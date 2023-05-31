@@ -12,7 +12,7 @@ export default function EditContact(){
          const r=useContext(addcontactcontext)
     
        const update=(e)=>{
-            e.preventDefault();
+           // e.preventDefault();
             if(state.name==="" || state.email===""){
             alert('fuckk off')
             return;

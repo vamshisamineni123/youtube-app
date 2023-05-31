@@ -4,6 +4,7 @@ import ContactCard from './ContactCard'
 import ContactList from './ContactList'
 import './App.css'
 import axios from "axios";
+import EditContact from "./EditContact";
 import AddContact from "./AddContact";
 import { useState ,useEffect,useContext} from "react";
 import { v4 as uuid } from "uuid";
@@ -120,12 +121,12 @@ export default function App(){
      <Router>
           <Header />
           <Routes>
-         <Route path='/add' element={<AddContact/>}>
-            </Route>
+         <Route path='/add' element={<AddContact/>}/>
             
-            <Route  exact path='/' element={<ContactList/>}>
-            <Route  exact path='/edit:id' element={<EditContact cont={data}/>}>
-            </Route>  
+            
+            <Route  exact path='/' element={<ContactList/>}/>
+            <Route  exact path='/edit' element={<EditContact/>}/>
+            
            </Routes>
       </Router>
       </contactlistcontext.Provider>
