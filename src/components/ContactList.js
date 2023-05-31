@@ -30,6 +30,10 @@ import ContactCard from "./ContactCard";
 import { Link } from "react-router-dom";
 
 const ContactList = ({ contacts, deleteContact }) => {
+    if (!Array.isArray(contacts)) {
+        // If it's not an array, display a message or handle the error appropriately
+        return <div>No contacts available</div>;
+      }
   const contactList = contacts.map((contact) => (
     <ContactCard
       key={contact.id}

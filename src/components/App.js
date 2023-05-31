@@ -137,7 +137,7 @@
 //     </div>
 //   )
 // }
-import React from "react";
+import React, { useEffect } from "react";
 import Header from './Header';
 import ContactCard from './ContactCard';
 import ContactList from './ContactList';
@@ -145,21 +145,10 @@ import './App.css';
 import AddContact from "./AddContact";
 import { connect } from "react-redux";
 import { addContact, deleteContact, setContacts, updateContact } from "../actions/contactActions";
-import { BrowserRouter as Router, Route, Switch,Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch, Routes } from 'react-router-dom';
 import EditContact from './EditContact';
-import { useEffect } from "react";
-const App = ({ contacts, addContact, deleteContact, updateContact,setContacts }) => {
-  const handleAddContact = (contact) => {
-    addContact(contact);
-  };
 
-  const handleDeleteContact = (id) => {
-    deleteContact(id);
-  };
-
-  const handleUpdateContact = (id, updatedContact) => {
-    updateContact(id, updatedContact);
-  };
+const App = ({ contacts, addContact, deleteContact, updateContact, setContacts }) => {
   useEffect(() => {
     const fetchContacts = async () => {
       try {
@@ -172,24 +161,78 @@ const App = ({ contacts, addContact, deleteContact, updateContact,setContacts })
     };
 
     fetchContacts();
-  }, [setContacts]);
+  }, []);
+
+  const handleAddContact = (contact) => {
+    addContact(contact);
+    // Perform POST request to update the contacts on the server
+    fetch("http://localhost:3008/contacts", {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(contact)
+    })
+      .then(response => response.json())
+      .then(data => {
+        console.log('Contact added successfully:', data);
+      })
+      .catch(error => {
+        console.error('Error adding contact:', error);
+      });
+  };
+
+  const handleDeleteContact = (id) => {
+    deleteContact(id);
+    // Perform DELETE request to remove the contact from the server
+    fetch(`http://localhost:3008/contacts/${id}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+      .then(response => {
+        if (response.ok) {
+          console.log('Contact deleted successfully');
+        } else {
+          throw new Error('Failed to delete contact');
+        }
+      })
+      .catch(error => {
+        console.error('Error deleting contact:', error);
+      });
+  };
+
+  const handleUpdateContact = (id, updatedContact) => {
+    updateContact(id, updatedContact);
+    // Perform PUT request to update the contact on the server
+    fetch(`http://localhost:3008/contacts/${id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(updatedContact)
+    })
+      .then(response => {
+        if (response.ok) {
+          console.log('Contact updated successfully');
+        } else {
+          throw new Error('Failed to update contact');
+        }
+      })
+      .catch(error => {
+        console.error('Error updating contact:', error);
+      });
+  };
+
   return (
     <div className="main">
       <Router>
-        
         <Header />
-        {/* <Switch> */}
         <Routes>
-          <Route exact path="/" render={() => <ContactList contacts={contacts} deleteContact={handleDeleteContact} />} />
-          <Route path="/add" render={() => <AddContact addContact={handleAddContact} />} />
-          <Route path="/edit/:id" render={({ match }) => (
-            <EditContact
-              contactId={match.params.id}
-              contacts={contacts}
-              updateContact={handleUpdateContact}
-            />
-          )} />
-        {/* </Switch> */}
+          <Route exact path="/" element={<ContactList contacts={contacts} deleteContact={handleDeleteContact} />} />
+          <Route path="/add" element={<AddContact addContact={handleAddContact} />} />
+          <Route path="/edit/:id" element={<EditContact contacts={contacts} updateContact={handleUpdateContact} />} />
         </Routes>
       </Router>
     </div>
@@ -207,7 +250,7 @@ const mapDispatchToProps = (dispatch) => {
     addContact: (contact) => dispatch(addContact(contact)),
     deleteContact: (id) => dispatch(deleteContact(id)),
     updateContact: (id, updatedContact) => dispatch(updateContact(id, updatedContact)),
-    setContacts: (contacts)=>dispatch(setContacts(contacts))
+    setContacts: (contacts) => dispatch(setContacts(contacts))
   };
 };
 
