@@ -23,7 +23,6 @@ const contactReducer = (state = initialState, action) => {
         )
       };
       case SET_CONTACTS:
-      // Set contacts logic
       return {
         ...state,
         contacts: action.payload

@@ -144,7 +144,7 @@ import ContactList from './ContactList';
 import './App.css';
 import AddContact from "./AddContact";
 import { connect } from "react-redux";
-import { addContact, deleteContact, updateContact } from "../actions/contactActions";
+import { addContact, deleteContact, setContacts, updateContact } from "../actions/contactActions";
 import { BrowserRouter as Router, Route, Switch,Routes } from 'react-router-dom';
 import EditContact from './EditContact';
 import { useEffect } from "react";
@@ -206,7 +206,8 @@ const mapDispatchToProps = (dispatch) => {
   return {
     addContact: (contact) => dispatch(addContact(contact)),
     deleteContact: (id) => dispatch(deleteContact(id)),
-    updateContact: (id, updatedContact) => dispatch(updateContact(id, updatedContact))
+    updateContact: (id, updatedContact) => dispatch(updateContact(id, updatedContact)),
+    setContacts: (contacts)=>dispatch(setContacts(contacts))
   };
 };
 
