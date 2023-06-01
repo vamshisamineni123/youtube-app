@@ -25,7 +25,7 @@ const contactReducer = (state = initialState, action) => {
       case SET_CONTACTS:
       return {
         ...state,
-        contacts: action.payload
+        contacts:[...action.payload]
       };
     default:
       return state;

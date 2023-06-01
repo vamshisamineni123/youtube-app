@@ -52,7 +52,7 @@ import { useDispatch } from 'react-redux';
 import { addContact } from '../actions/contactActions';
 import { useNavigate } from 'react-router-dom';
 
-const AddContact = ({ onAddContact }) => {
+const AddContact = (props) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [state, setState] = useState({ name: '', email: '' });
@@ -68,10 +68,10 @@ const AddContact = ({ onAddContact }) => {
       alert('Please enter name and email.');
       return;
     }
-    dispatch(addContact(state));
+    props.addContact(state);
     setState({ name: '', email: '' });
     navigate('/');
-    onAddContact(); // Optional callback to trigger any additional actions
+    //props.addContact(); // Optional callback to trigger any additional actions
   };
 
   return (

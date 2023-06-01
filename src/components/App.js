@@ -147,8 +147,10 @@ import { connect } from "react-redux";
 import { addContact, deleteContact, setContacts, updateContact } from "../actions/contactActions";
 import { BrowserRouter as Router, Route, Switch, Routes } from 'react-router-dom';
 import EditContact from './EditContact';
-
+import { useDispatch } from "react-redux";
+import {v4 as uuidv4} from 'uuid'
 const App = ({ contacts, addContact, deleteContact, updateContact, setContacts }) => {
+  //const dispatch = useDispatch();const dispatch = useDispatch();
   useEffect(() => {
     const fetchContacts = async () => {
       try {
@@ -164,14 +166,15 @@ const App = ({ contacts, addContact, deleteContact, updateContact, setContacts }
   }, []);
 
   const handleAddContact = (contact) => {
-    addContact(contact);
+    const updatedcontact={...contact,id:uuidv4()}
+   addContact(updatedcontact);
     // Perform POST request to update the contacts on the server
     fetch("http://localhost:3008/contacts", {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(contact)
+      body: JSON.stringify(updatedcontact)
     })
       .then(response => response.json())
       .then(data => {
@@ -230,9 +233,9 @@ const App = ({ contacts, addContact, deleteContact, updateContact, setContacts }
       <Router>
         <Header />
         <Routes>
-          <Route exact path="/" element={<ContactList contacts={contacts} deleteContact={handleDeleteContact} />} />
+          <Route exact path="/" element={<ContactList contacts={contacts.contacts} deleteContact={handleDeleteContact} />} />
           <Route path="/add" element={<AddContact addContact={handleAddContact} />} />
-          <Route path="/edit/:id" element={<EditContact contacts={contacts} updateContact={handleUpdateContact} />} />
+          <Route path="/edit/:id" element={<EditContact contacts={contacts.contacts} updateContact={handleUpdateContact} />} />
         </Routes>
       </Router>
     </div>
