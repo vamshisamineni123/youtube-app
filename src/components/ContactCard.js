@@ -64,7 +64,7 @@ const ContactCard = ({ contact, deleteContact }) => {
   return (
     <div className="contact-card">
       <div>
-        <Link to={`/edit/${contact.id}`}>
+        <Link to={`./edit/${contact.id}`}>
           <div>{contact.name}</div>
           <div>{contact.email}</div>
         </Link>

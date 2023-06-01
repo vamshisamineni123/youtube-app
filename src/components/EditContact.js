@@ -49,15 +49,20 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { updateContact } from '../actions/contactActions';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation ,useParams} from 'react-router-dom';
 
-const EditContact = () => {
+const EditContact = (props) => {
+ 
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
-  const contact = location.state.contact;
+  const {id}=useParams
+  // const id = location.state.id;
+  // const {contact} = location.state;
+  console.log(id,'id bro')
+  const contact=props.contacts.filter((item)=>item.id==id)
   const [state, setState] = useState({ name: contact.name, email: contact.email });
-
+ 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setState((prevState) => ({ ...prevState, [name]: value }));
