@@ -34,7 +34,6 @@
 
 // export default contactReducer;
 import { createSlice } from '@reduxjs/toolkit';
-import { SET_CONTACTS } from "../actions/contactActions";
 
 const initialState = {
   contacts: []

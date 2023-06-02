@@ -292,7 +292,7 @@ import ContactList from './ContactList';
 import './App.css';
 import AddContact from "./AddContact";
 import { useDispatch, useSelector } from "react-redux";
-import { addContact, deleteContact, setContacts, updateContact } from "../actions/contactActions";
+import { addContact, deleteContact, setContacts, updateContact } from "../reducers/contactsReducer";
 import { BrowserRouter as Router, Route, Switch, Routes } from 'react-router-dom';
 import EditContact from './EditContact';
 import { v4 as uuidv4 } from 'uuid';
@@ -316,15 +316,14 @@ const App = () => {
   }, []);
 
   const handleAddContact = (contact) => {
-    const updatedContact = { ...contact, id: uuidv4() };
-    dispatch(addContact(updatedContact));
+    dispatch(addContact(contact));
     // Perform POST request to update the contacts on the server
     fetch("http://localhost:3008/contacts", {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(updatedContact)
+      body: JSON.stringify(contact)
     })
       .then(response => response.json())
       .then(data => {

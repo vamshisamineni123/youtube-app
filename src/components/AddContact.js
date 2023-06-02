@@ -107,10 +107,11 @@
 // export default AddContact;
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { addContact } from '../actions/contactActions';
+import { addContact } from '../reducers/contactsReducer';
 import { useNavigate } from 'react-router-dom';
+import { v4 as uuidv4 } from 'uuid';
 
-const AddContact = () => {
+const AddContact = (props) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [state, setState] = useState({ name: '', email: '' });
@@ -126,7 +127,9 @@ const AddContact = () => {
       alert('Please enter name and email.');
       return;
     }
-    dispatch(addContact(state));
+    const k={...state,id: uuidv4()}
+    // dispatch(addContact(k));
+    props.addContact(k)
     setState({ name: '', email: '' });
     navigate('/');
   };

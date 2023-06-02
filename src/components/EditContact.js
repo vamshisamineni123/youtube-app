@@ -115,10 +115,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { updateContact } from '../actions/contactActions';
 import { useNavigate, useParams } from 'react-router-dom';
 
-const EditContact = () => {
+const EditContact = (props) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { id } = useParams();
+  console.log(id,'   ramsita-id')
   const contacts = useSelector((state) => state.contacts.contacts);
   const contact = contacts.find((item) => item.id === id);
 
@@ -135,7 +136,8 @@ const EditContact = () => {
       alert('Please enter name and email.');
       return;
     }
-    dispatch(updateContact(contact.id, state));
+    // dispatch(updateContact(state.id,{name:state.name,email:state.email}));
+    props.updateContact(id:contact.id,{name:state.name,email:state.email});
     setState({ name: '', email: '' });
     navigate('/');
   };
