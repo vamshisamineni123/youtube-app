@@ -8,10 +8,13 @@
 
 // export default store;
 import { configureStore } from "@reduxjs/toolkit";
-import rootReducer from "./reducers/index";
-
+import rootReducer from "./reducers/contactsReducer.js"
+// const store = configureStore({
+//   reducer: rootReducer,
+// });
 const store = configureStore({
-  reducer: rootReducer,
+  reducer: {
+    contacts: rootReducer
+  }
 });
-
 export default store;

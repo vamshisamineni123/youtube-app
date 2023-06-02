@@ -137,26 +137,176 @@
 //     </div>
 //   )
 // }
+
+
+
+
+// ..
+// .
+
+// .
+// .
+// .
+// .
+// .
+
+// .
+// .
+// .
+// .
+// .
+
+// .
+// .
+// .
+
+// .
+// .
+// .
+// import React, { useEffect } from "react";
+// import Header from './Header';
+// import ContactCard from './ContactCard';
+// import ContactList from './ContactList';
+// import './App.css';
+// import AddContact from "./AddContact";
+// import { connect } from "react-redux";
+// import { addContact, deleteContact, setContacts, updateContact } from "../actions/contactActions";
+// import { BrowserRouter as Router, Route, Switch, Routes } from 'react-router-dom';
+// import EditContact from './EditContact';
+// import { useDispatch } from "react-redux";
+// import {v4 as uuidv4} from 'uuid'
+// const App = ({ contacts, addContact, deleteContact, updateContact, setContacts }) => {
+//   //const dispatch = useDispatch();const dispatch = useDispatch();
+//   console.log(contacts,' contacts testing')
+//   useEffect(() => {
+//     const fetchContacts = async () => {
+//       try {
+//         const response = await fetch("http://localhost:3008/contacts");
+//         const data = await response.json();
+//         setContacts(data);
+//       } catch (error) {
+//         console.error('Error fetching contacts:', error);
+//       }
+//     };
+
+//     fetchContacts();
+//   }, []);
+
+//   const handleAddContact = (contact) => {
+//     const updatedcontact={...contact,id:uuidv4()}
+//    addContact(updatedcontact);
+//     // Perform POST request to update the contacts on the server
+//     fetch("http://localhost:3008/contacts", {
+//       method: 'POST',
+//       headers: {
+//         'Content-Type': 'application/json'
+//       },
+//       body: JSON.stringify(updatedcontact)
+//     })
+//       .then(response => response.json())
+//       .then(data => {
+//         console.log('Contact added successfully:', data);
+//       })
+//       .catch(error => {
+//         console.error('Error adding contact:', error);
+//       });
+//   };
+
+//   const handleDeleteContact = (id) => {
+//     deleteContact(id);
+//     // Perform DELETE request to remove the contact from the server
+//     fetch(`http://localhost:3008/contacts/${id}`, {
+//       method: 'DELETE',
+//       headers: {
+//         'Content-Type': 'application/json'
+//       }
+//     })
+//       .then(response => {
+//         if (response.ok) {
+//           console.log('Contact deleted successfully');
+//         } else {
+//           throw new Error('Failed to delete contact');
+//         }
+//       })
+//       .catch(error => {
+//         console.error('Error deleting contact:', error);
+//       });
+//   };
+
+//   const handleUpdateContact = (id, updatedContact) => {
+//     updateContact(id, updatedContact);
+//     // Perform PUT request to update the contact on the server
+//     fetch(`http://localhost:3008/contacts/${id}`, {
+//       method: 'PUT',
+//       headers: {
+//         'Content-Type': 'application/json'
+//       },
+//       body: JSON.stringify(updatedContact)
+//     })
+//       .then(response => {
+//         if (response.ok) {
+//           console.log('Contact updated successfully');
+//         } else {
+//           throw new Error('Failed to update contact');
+//         }
+//       })
+//       .catch(error => {
+//         console.error('Error updating contact:', error);
+//       });
+//   };
+
+//   return (
+//     <div className="main">
+//       <Router>
+//         <Header />
+//         <Routes>
+//           <Route exact path="/" element={<ContactList contacts={contacts.contacts} deleteContact={handleDeleteContact} />} />
+//           <Route path="/add" element={<AddContact addContact={handleAddContact} />} />
+//           <Route path="/edit/:id" element={<EditContact contacts={contacts.contacts} updateContact={handleUpdateContact} />} />
+//         </Routes>
+//       </Router>
+//     </div>
+//   );
+// }
+
+// const mapStateToProps = (state) => {
+//   return {
+//     contacts: state.contacts
+//   };
+// };
+
+// const mapDispatchToProps = (dispatch) => {
+//   return {
+//     addContact: (contact) => dispatch(addContact(contact)),
+//     deleteContact: (id) => dispatch(deleteContact(id)),
+//     updateContact: (id, updatedContact) => dispatch(updateContact(id, updatedContact)),
+//     setContacts: (contacts) => dispatch(setContacts(contacts))
+//   };
+// };
+
+// export default connect(mapStateToProps, mapDispatchToProps)(App);
 import React, { useEffect } from "react";
 import Header from './Header';
 import ContactCard from './ContactCard';
 import ContactList from './ContactList';
 import './App.css';
 import AddContact from "./AddContact";
-import { connect } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addContact, deleteContact, setContacts, updateContact } from "../actions/contactActions";
 import { BrowserRouter as Router, Route, Switch, Routes } from 'react-router-dom';
 import EditContact from './EditContact';
-import { useDispatch } from "react-redux";
-import {v4 as uuidv4} from 'uuid'
-const App = ({ contacts, addContact, deleteContact, updateContact, setContacts }) => {
-  //const dispatch = useDispatch();const dispatch = useDispatch();
+import { v4 as uuidv4 } from 'uuid';
+
+const App = () => {
+  const contacts = useSelector(state => state.contacts);
+  const dispatch = useDispatch();
+
   useEffect(() => {
     const fetchContacts = async () => {
       try {
         const response = await fetch("http://localhost:3008/contacts");
         const data = await response.json();
-        setContacts(data);
+        dispatch(setContacts(data));
       } catch (error) {
         console.error('Error fetching contacts:', error);
       }
@@ -166,15 +316,15 @@ const App = ({ contacts, addContact, deleteContact, updateContact, setContacts }
   }, []);
 
   const handleAddContact = (contact) => {
-    const updatedcontact={...contact,id:uuidv4()}
-   addContact(updatedcontact);
+    const updatedContact = { ...contact, id: uuidv4() };
+    dispatch(addContact(updatedContact));
     // Perform POST request to update the contacts on the server
     fetch("http://localhost:3008/contacts", {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(updatedcontact)
+      body: JSON.stringify(updatedContact)
     })
       .then(response => response.json())
       .then(data => {
@@ -186,7 +336,7 @@ const App = ({ contacts, addContact, deleteContact, updateContact, setContacts }
   };
 
   const handleDeleteContact = (id) => {
-    deleteContact(id);
+    dispatch(deleteContact(id));
     // Perform DELETE request to remove the contact from the server
     fetch(`http://localhost:3008/contacts/${id}`, {
       method: 'DELETE',
@@ -207,7 +357,7 @@ const App = ({ contacts, addContact, deleteContact, updateContact, setContacts }
   };
 
   const handleUpdateContact = (id, updatedContact) => {
-    updateContact(id, updatedContact);
+    dispatch(updateContact(id, updatedContact));
     // Perform PUT request to update the contact on the server
     fetch(`http://localhost:3008/contacts/${id}`, {
       method: 'PUT',
@@ -242,19 +392,4 @@ const App = ({ contacts, addContact, deleteContact, updateContact, setContacts }
   );
 }
 
-const mapStateToProps = (state) => {
-  return {
-    contacts: state.contacts
-  };
-};
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    addContact: (contact) => dispatch(addContact(contact)),
-    deleteContact: (id) => dispatch(deleteContact(id)),
-    updateContact: (id, updatedContact) => dispatch(updateContact(id, updatedContact)),
-    setContacts: (contacts) => dispatch(setContacts(contacts))
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default App;

@@ -47,12 +47,70 @@
 //         </div>
 //     );
 // }
+// import React, { useState } from 'react';
+// import { useDispatch } from 'react-redux';
+// import { addContact } from '../actions/contactActions';
+// import { useNavigate } from 'react-router-dom';
+
+// const AddContact = (props) => {
+//   const dispatch = useDispatch();
+//   const navigate = useNavigate();
+//   const [state, setState] = useState({ name: '', email: '' });
+
+//   const handleInputChange = (e) => {
+//     const { name, value } = e.target;
+//     setState((prevState) => ({ ...prevState, [name]: value }));
+//   };
+
+//   const handleSubmit = (e) => {
+//     e.preventDefault();
+//     if (state.name === '' || state.email === '') {
+//       alert('Please enter name and email.');
+//       return;
+//     }
+//     props.addContact(state);
+//     setState({ name: '', email: '' });
+//     navigate('/');
+//     //props.addContact(); // Optional callback to trigger any additional actions
+//   };
+
+//   return (
+//     <div className="add-contact">
+//       <h2>Add Contact</h2>
+//       <form onSubmit={handleSubmit}>
+//         <div>
+//           <label htmlFor="name">Name</label>
+//           <input
+//             type="text"
+//             name="name"
+//             id="name"
+//             value={state.name}
+//             onChange={handleInputChange}
+//           />
+//         </div>
+//         <div>
+//           <label htmlFor="email">Email</label>
+//           <input
+//             type="email"
+//             name="email"
+//             id="email"
+//             value={state.email}
+//             onChange={handleInputChange}
+//           />
+//         </div>
+//         <button type="submit">Add</button>
+//       </form>
+//     </div>
+//   );
+// };
+
+// export default AddContact;
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { addContact } from '../actions/contactActions';
 import { useNavigate } from 'react-router-dom';
 
-const AddContact = (props) => {
+const AddContact = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [state, setState] = useState({ name: '', email: '' });
@@ -68,10 +126,9 @@ const AddContact = (props) => {
       alert('Please enter name and email.');
       return;
     }
-    props.addContact(state);
+    dispatch(addContact(state));
     setState({ name: '', email: '' });
     navigate('/');
-    //props.addContact(); // Optional callback to trigger any additional actions
   };
 
   return (
