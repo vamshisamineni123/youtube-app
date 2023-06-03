@@ -356,8 +356,9 @@ const App = () => {
   };
 
   const handleUpdateContact = (id, updatedContact) => {
-    dispatch(updateContact(id, updatedContact));
+    dispatch(updateContact({id, updatedContact}));
     // Perform PUT request to update the contact on the server
+    console.log(updatedContact,'cillian')
     fetch(`http://localhost:3008/contacts/${id}`, {
       method: 'PUT',
       headers: {
@@ -366,6 +367,7 @@ const App = () => {
       body: JSON.stringify(updatedContact)
     })
       .then(response => {
+        console.log(response,' response ra')
         if (response.ok) {
           console.log('Contact updated successfully');
         } else {

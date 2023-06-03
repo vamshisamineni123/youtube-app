@@ -51,9 +51,14 @@ const contactSlice = createSlice({
     },
     updateContact: (state, action) => {
       const { id, updatedContact } = action.payload;
+
+
+      console.log('song ',updateContact)
+      // console.log('in reducer',updatedContact.name,' ',updatedContact.email)
       const index = state.contacts.findIndex(contact => contact.id === id);
       if (index !== -1) {
         state.contacts[index] = updatedContact;
+       // console.log(state.contacts[0],'SAMI SAMIE')
       }
     },
     setContacts:(state,action)=>{
@@ -64,7 +69,7 @@ const contactSlice = createSlice({
   // extraReducers: (builder) => {
   //   builder.addCase(SET_CONTACTS, (state, action) => {
   //     state.contacts = action.payload;
-  //   });
+  //   });a
   // }
 });
 

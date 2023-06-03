@@ -124,7 +124,7 @@ const EditContact = (props) => {
   const contact = contacts.find((item) => item.id === id);
 
   const [state, setState] = useState({ name: contact.name, email: contact.email });
-
+  console.log('hi ra', contact.name,' ',contact.email)
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setState((prevState) => ({ ...prevState, [name]: value }));
@@ -137,7 +137,7 @@ const EditContact = (props) => {
       return;
     }
     // dispatch(updateContact(state.id,{name:state.name,email:state.email}));
-    props.updateContact(id:contact.id,{name:state.name,email:state.email});
+    props.updateContact(contact.id,{id:contact.id,name:state.name,email:state.email});
     setState({ name: '', email: '' });
     navigate('/');
   };
